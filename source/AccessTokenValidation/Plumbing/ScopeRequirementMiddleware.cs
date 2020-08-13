@@ -15,6 +15,7 @@
  */
 
 using Microsoft.Owin;
+using Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -118,7 +119,9 @@ namespace IdentityServer3.AccessTokenValidation
                 return false;
             }
 
-            foreach (var scope in scopeClaims)
+            var convertedScopeClaims = scopeClaims.ConvertFromIdSrv4Format();
+
+            foreach (var scope in convertedScopeClaims)
             {
                 if (_options.RequiredScopes.Contains(scope.Value, StringComparer.Ordinal))
                 {
